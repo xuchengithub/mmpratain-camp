@@ -1,0 +1,24 @@
+version: "3.7"
+services:
+  mmpretain:
+    container_name: "mmpretain"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    tty: true
+    environment:
+      - DISPLAY=${DISPLAY}
+    shm_size: "26gb"
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ./mmpretrain:/mmpretrain
+    privileged: true
+    network_mode: "host"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
